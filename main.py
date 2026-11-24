@@ -19,7 +19,7 @@ if not BOT_TOKEN:
     raise RuntimeError("Set BOT_TOKEN in Railway Variables")
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
-app = FastAPI(title="Для Альбины")
+app = FastAPI(title="Для Альбины"
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def db():
@@ -58,7 +58,9 @@ async def start(message: types.Message):
         await message.answer("Это личное приглашение. Оно предназначено для Альбины 🌷")
         return
     if not WEBAPP_URL:
-        await message.answer("Ссылка мини-приложения ещё не настроена. Давид скоро всё подключит 💌")
+    @app.get("/")
+async def index():
+    return FileResponse("static/index.html")
         return
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text="Открыть открытку 💌", web_app=WebAppInfo(url=WEBAPP_URL))
